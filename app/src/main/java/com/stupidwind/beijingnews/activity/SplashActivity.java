@@ -1,5 +1,6 @@
-package com.stupidwind.beijingnews;
+package com.stupidwind.beijingnews.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +11,12 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.Toast;
 
+import com.stupidwind.beijingnews.R;
+import com.stupidwind.beijingnews.utils.CacheUtil;
+
 public class SplashActivity extends AppCompatActivity {
+
+    private static final String START_MAIN = "start_main";
 
     // 动画持续时长
     private static final int DURATION = 2000;
@@ -57,7 +63,20 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            Toast.makeText(SplashActivity.this, "动画播放完成了", Toast.LENGTH_SHORT).show();
+            // 判定是否进入过主页面
+            boolean isStartMain = CacheUtil.getBoolean(SplashActivity.this, START_MAIN);
+            if(isStartMain) {
+                // 如果进入过主页面，直接进入主页面
+            } else {
+                // 如果没进入过主页面，则进入向导页面
+                Intent intent = new Intent(SplashActivity.this, GuideActivity.class);
+                startActivity(intent);
+            }
+
+            // 关闭splash页面
+            finish();
+
+            // Toast.makeText(SplashActivity.this, "动画播放完成了", Toast.LENGTH_SHORT).show();
         }
 
         @Override
